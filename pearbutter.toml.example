@@ -1,0 +1,32 @@
+[config]
+logfile = "/dev/stderr" # there shouldn't be a need to change this
+
+[[servers]]
+name = "server1"
+address = "irc1.example.org"
+password = ""
+port = 6697
+ssl = true
+nick = "nick"
+user = "username"
+realname = "pearbutter"
+channel = "##channel"
+rss_fetch_interval = 10
+rss_url = "https://example.org/rss1"
+formatting = "%title% | %link% | comments: %comments%" # the %tag% variable is going to be replaced with the content of the tag in the RSS feed
+onconnect = ""                                         # commands to be executed after connecting to the server
+
+[[servers]]
+name = "server2"
+address = "irc2.example.org"
+password = ""
+port = 6697
+ssl = true
+nick = "nick"
+user = "username"
+realname = "pearbutter"
+channel = "##channel"
+rss_fetch_interval = 10
+rss_url = "https://example.org/rss2"
+formatting = "%title% | %link% | comments: %comments%" # the %tag% variable is going to be replaced with the content of the tag in the RSS feed
+onconnect = ""                                         # commands to be executed after connecting to the server
