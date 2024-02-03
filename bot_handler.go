@@ -32,7 +32,7 @@ func HandleBot(bot *girc.Client, config *BotConfig) error {
 
 	bot.Handlers.Add(girc.CONNECTED, func(c *girc.Client, e girc.Event) {
 		for {
-			log.Printf("Parse RSS (%s)\n", config.RssURL)
+			log.Printf("Parsing RSS (%s)\n", config.RssURL)
 	
 			msg, err := ParseRss(config)
 			if err != nil {

@@ -13,8 +13,8 @@ realname = "pearbutter"
 channel = "##channel"
 rss_fetch_interval = 10
 rss_url = "https://example.org/rss1"
-formatting = "%title% | %link% | comments: %comments%" # the %tag% variable is going to be replaced with the content of the tag in the RSS feed
-onconnect = ""                                         # commands to be executed after connecting to the server
+formatting = "%channel>item>title% | %channel>item>link% | comments: %channel>item>comments%" # the %path>to>item% is going to be replaced with the content of the tag under the provided path in the RSS feed
+onconnect = "" # commands to be executed after connecting to the server
 
 [[servers]]
 name = "server2"
@@ -28,5 +28,5 @@ realname = "pearbutter"
 channel = "##channel"
 rss_fetch_interval = 10
 rss_url = "https://example.org/rss2"
-formatting = "%title% | %link% | comments: %comments%" # the %tag% variable is going to be replaced with the content of the tag in the RSS feed
-onconnect = ""                                         # commands to be executed after connecting to the server
+formatting = "%channel>item>title% | %channel>item>link% | comments: %channel>item>comments%" # the %path>to>item% is going to be replaced with the content of the tag under the provided path in the RSS feed
+onconnect = "" # commands to be executed after connecting to the server

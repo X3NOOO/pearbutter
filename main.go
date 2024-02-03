@@ -31,6 +31,7 @@ func main() {
 	logfile := os.Stderr
 
 	log.SetOutput(logfile)
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	var eg errgroup.Group
 
