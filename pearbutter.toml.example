@@ -13,7 +13,7 @@ realname = "pearbutter"
 channel = "##channel"
 rss_fetch_interval = 10
 rss_url = "https://example.org/rss1"
-formatting = "%channel>item>title% | %channel>item>link% | comments: %channel>item>comments%" # the %path>to>item% is going to be replaced with the content of the tag under the provided path in the RSS feed
+formatting = "%title% | %link% | comments: %comments%" # each variable surrounded by % will be replaced with the value from xpath query performed on the item element
 onconnect = "" # commands to be executed after connecting to the server
 
 [[servers]]
@@ -28,5 +28,5 @@ realname = "pearbutter"
 channel = "##channel"
 rss_fetch_interval = 10
 rss_url = "https://example.org/rss2"
-formatting = "%channel>item>title% | %channel>item>link% | comments: %channel>item>comments%" # the %path>to>item% is going to be replaced with the content of the tag under the provided path in the RSS feed
+formatting = "%title% | %link% | comments: %comments%"~ # each variable surrounded by % will be replaced with the value from xpath query performed on the item element
 onconnect = "" # commands to be executed after connecting to the server
