@@ -12,9 +12,11 @@ import (
 Get all the new items since the last message from the RSS feed
 
 Args:
+
 	config: The bot configuration
 
 Returns:
+
 	[]string: The items in the RSS feed
 */
 func ParseRss(config *BotConfig) ([]string, error) {
@@ -25,7 +27,7 @@ func ParseRss(config *BotConfig) ([]string, error) {
 
 	formats := regexp.MustCompile(`%([\w>]*)%`).FindAllStringSubmatch(config.Formatting, -1)
 	log.Println("formats:", formats)
-	
+
 	var posts []string
 	for _, item := range xmlquery.Find(doc, "//item") {
 		var msg string = config.Formatting

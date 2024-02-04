@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"io"
 	"log"
 	"os"
@@ -9,26 +10,44 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
+var flagConfig string
+var flagVerbose bool
+
+func init() {
+	flag.StringVar(&flagConfig, "config", "", "Path to the configuration file")
+	flag.BoolVar(&flagVerbose, "verbose", false, "Print version and exit")
+}
+
 func main() {
+	flag.Parse()
+
 	ucdir, err := os.UserConfigDir()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
 
 	cpaths := []string{"./pearbutter.toml", "/etc/pearbutter/pearbutter.toml", ucdir + "/pearbutter.toml"}
 
-	c, err := GetConfig(cpaths)
-	if err != nil {
-		log.Fatal(err)
+	if flagConfig != "" {
+		cpaths = []string{flagConfig}
 	}
 
-	// logfile, err := os.Open(c.Config.Logfile)
-	// logfile, err := os.Open(c.Config.Logfile)
-	// if err != nil {
-	// log.Fatal(err)
-	// }
+	c, err := GetConfig(cpaths)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
-	logfile := os.Stderr
+	logfile, err := os.OpenFile(c.Config.Logfile, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0666)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	var debugfile io.Writer
+	if flagVerbose {
+		debugfile = logfile
+	} else {
+		debugfile = io.Discard
+	}
 
 	log.SetOutput(logfile)
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
@@ -46,18 +65,17 @@ func main() {
 			Nick:       bc.Nick,
 			User:       bc.User,
 			Name:       bc.Realname,
-			// Debug:      logfile,
-			Debug:      io.Discard,
-			Out:        os.Stderr,
+			Debug:      debugfile,
+			Out:        logfile,
 		})
 
 		eg.Go(func() error {
 			return HandleBot(bot, &bc)
 		})
 	}
-	
+
 	err = eg.Wait()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
 }
