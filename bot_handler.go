@@ -17,7 +17,7 @@ Args:
 */
 func HandleBot(bot *girc.Client, config *BotConfig) error {
 	log.Println("Setting up up", config.Name)
-	var last_message string
+	var posts []string
 
 	bot.Handlers.Add(girc.CONNECTED, func(c *girc.Client, e girc.Event) {
 		if config.Onconnect != "" {
@@ -44,17 +44,12 @@ func HandleBot(bot *girc.Client, config *BotConfig) error {
 				log.Printf("No messages found for RSS (%s)\n", config.RssURL)
 			}
 
-			if msg[len(msg)-1] == last_message {
-				log.Printf("No new messages found for RSS (%s)\n", config.RssURL)
-				continue
-			}
-
 			for _, m := range msg {
-				if m == last_message || m == "" {
+				if m == "" || inArray(posts, m){
 					continue
 				}
 				c.Cmd.Message(config.Channel, girc.Fmt(m))
-				last_message = m
+				posts = append(posts, m)
 				time.Sleep(time.Duration(config.RssAntiFlood) * time.Second)
 			}
 
