@@ -4,12 +4,21 @@ import (
 	"io"
 	"log"
 	"os"
+	"flag"
 
 	"github.com/lrstanley/girc"
 	"golang.org/x/sync/errgroup"
 )
 
+var flagConfig string
+
+func init() {
+	flag.StringVar(&flagConfig, "config", "", "Path to the configuration file")
+}
+
 func main() {
+	flag.Parse()
+
 	ucdir, err := os.UserConfigDir()
 	if err != nil {
 		log.Fatal(err)
@@ -17,16 +26,14 @@ func main() {
 
 	cpaths := []string{"./pearbutter.toml", "/etc/pearbutter/pearbutter.toml", ucdir + "/pearbutter.toml"}
 
+	if flagConfig != "" {
+		cpaths = []string{flagConfig}
+	}
+
 	c, err := GetConfig(cpaths)
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	// logfile, err := os.Open(c.Config.Logfile)
-	// logfile, err := os.Open(c.Config.Logfile)
-	// if err != nil {
-	// log.Fatal(err)
-	// }
 
 	logfile := os.Stderr
 
