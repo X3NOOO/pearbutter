@@ -14,3 +14,5 @@ RUN mv /src/out/* .
 RUN rm -rf /src
 
 ENTRYPOINT ["/pearbutter/pearbutter", "--config", "/pearbutter/pearbutter.toml"]
+
+

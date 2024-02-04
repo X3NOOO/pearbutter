@@ -28,3 +28,5 @@ RSS feed to IRC messages translator.
 
 1. `git clone https://github.com/X3NOOO/pearbutter && cd ./pearbutter`
 2. `bash ./build.sh config release run`
+
+
