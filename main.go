@@ -5,7 +5,6 @@ import (
 	"io"
 	"log"
 	"os"
-	"flag"
 
 	"github.com/lrstanley/girc"
 	"golang.org/x/sync/errgroup"
