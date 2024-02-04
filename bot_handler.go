@@ -44,7 +44,7 @@ func HandleBot(bot *girc.Client, config *BotConfig) error {
 				if m == last_message || m == "" {
 					continue
 				}
-				c.Cmd.Message(config.Channel, m)
+				c.Cmd.Message(config.Channel, girc.Fmt(m))
 				last_message = m
 				time.Sleep(time.Duration(config.RssAntiFlood) * time.Second)
 			}
