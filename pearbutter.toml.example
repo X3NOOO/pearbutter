@@ -30,3 +30,4 @@ rss_fetch_interval = 10
 rss_url = "https://example.org/rss2"
 formatting = "%title% | %link% | comments: %comments%" # each variable surrounded by % will be replaced with the value from xpath query performed on the item element
 onconnect = "" # commands to be executed after connecting to the server
+
