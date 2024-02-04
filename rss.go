@@ -26,8 +26,13 @@ func ParseRss(config *BotConfig) ([]string, error) {
 
 	formats := regexp.MustCompile(`%([\w>]*)%`).FindAllStringSubmatch(config.Formatting, -1)
 
+	items := xmlquery.Find(doc, "//item")
+	for i, j := 0, len(items)-1; i < j; i, j = i+1, j-1 {
+		items[i], items[j] = items[j], items[i]
+	}
+
 	var posts []string
-	for _, item := range xmlquery.Find(doc, "//item") {
+	for _, item := range items {
 		var msg string = config.Formatting
 		for _, f := range formats {
 			msg = strings.ReplaceAll(msg, f[0], xmlquery.FindOne(item, f[1]).InnerText())
