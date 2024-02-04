@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"regexp"
 	"strings"
 
@@ -26,7 +25,6 @@ func ParseRss(config *BotConfig) ([]string, error) {
 	}
 
 	formats := regexp.MustCompile(`%([\w>]*)%`).FindAllStringSubmatch(config.Formatting, -1)
-	log.Println("formats:", formats)
 
 	var posts []string
 	for _, item := range xmlquery.Find(doc, "//item") {

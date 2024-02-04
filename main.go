@@ -15,7 +15,7 @@ var flagVerbose bool
 
 func init() {
 	flag.StringVar(&flagConfig, "config", "", "Path to the configuration file")
-	flag.BoolVar(&flagVerbose, "verbose", false, "Print version and exit")
+	flag.BoolVar(&flagVerbose, "verbose", false, "Enable extra debug logs")
 }
 
 func main() {

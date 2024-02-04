@@ -46,6 +46,7 @@ func HandleBot(bot *girc.Client, config *BotConfig) error {
 				}
 				c.Cmd.Message(config.Channel, m)
 				last_message = m
+				time.Sleep(time.Duration(config.RssAntiFlood) * time.Second)
 			}
 
 			time.Sleep(time.Duration(config.RssFetchInterval) * time.Second)
