@@ -40,6 +40,15 @@ func HandleBot(bot *girc.Client, config *BotConfig) error {
 				log.Printf("Failed to format RSS (%s): %s\n", config.RssURL, err)
 			}
 
+			if len(msg) == 0 {
+				log.Printf("No messages found for RSS (%s)\n", config.RssURL)
+			}
+
+			if msg[len(msg)-1] == last_message {
+				log.Printf("No new messages found for RSS (%s)\n", config.RssURL)
+				continue
+			}
+
 			for _, m := range msg {
 				if m == last_message || m == "" {
 					continue
