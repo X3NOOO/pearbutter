@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"io"
 	"log"
 	"os"
@@ -11,9 +12,11 @@ import (
 )
 
 var flagConfig string
+var flagVerbose bool
 
 func init() {
 	flag.StringVar(&flagConfig, "config", "", "Path to the configuration file")
+	flag.BoolVar(&flagVerbose, "verbose", false, "Enable extra debug logs")
 }
 
 func main() {
@@ -21,7 +24,7 @@ func main() {
 
 	ucdir, err := os.UserConfigDir()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
 
 	cpaths := []string{"./pearbutter.toml", "/etc/pearbutter/pearbutter.toml", ucdir + "/pearbutter.toml"}
@@ -32,10 +35,20 @@ func main() {
 
 	c, err := GetConfig(cpaths)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
 
-	logfile := os.Stderr
+	logfile, err := os.OpenFile(c.Config.Logfile, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0666)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	var debugfile io.Writer
+	if flagVerbose {
+		debugfile = logfile
+	} else {
+		debugfile = io.Discard
+	}
 
 	log.SetOutput(logfile)
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
@@ -53,18 +66,17 @@ func main() {
 			Nick:       bc.Nick,
 			User:       bc.User,
 			Name:       bc.Realname,
-			// Debug:      logfile,
-			Debug:      io.Discard,
-			Out:        os.Stderr,
+			Debug:      debugfile,
+			Out:        logfile,
 		})
 
 		eg.Go(func() error {
 			return HandleBot(bot, &bc)
 		})
 	}
-	
+
 	err = eg.Wait()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
 }

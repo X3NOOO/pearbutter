@@ -20,14 +20,13 @@ RSS feed to IRC messages translator.
 
 ### Docker (recommended)
 
-1. `git clone https://github.com/X3NOOO/pearbutter`
-2. `cd ./pearbutter/`
-3. `bash ./build.sh config`
-4. `docker build -t pearbutter .`
-5. `docker run -d --restart unless-stopped --name pearbutter pearbutter`
+1. `git clone https://github.com/X3NOOO/pearbutter && cd ./pearbutter`
+2. `bash ./build.sh config`
+3. `docker build -t pearbutter . && docker run -d --restart unless-stopped --name pearbutter pearbutter`
 
 ### Raw binary
 
-1. `git clone https://github.com/X3NOOO/pearbutter`
-2. `cd ./pearbutter/`
-3. `bash ./build.sh config release run`
+1. `git clone https://github.com/X3NOOO/pearbutter && cd ./pearbutter`
+2. `bash ./build.sh config release run`
+
+
