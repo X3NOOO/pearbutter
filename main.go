@@ -69,6 +69,7 @@ func main() {
 			Out:        logfile,
 		})
 
+		bc := bc
 		eg.Go(func() error {
 			return HandleBot(bot, &bc)
 		})
