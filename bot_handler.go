@@ -49,6 +49,9 @@ func HandleBot(bot *girc.Client, config *BotConfig) error {
 					continue
 				}
 				c.Cmd.Message(config.Channel, girc.Fmt(m))
+				for(len(posts)-1 >= config.MaxBacklog) {
+					posts = posts[1:]
+				}
 				posts = append(posts, m)
 				time.Sleep(time.Duration(config.RssAntiFlood) * time.Second)
 			}
