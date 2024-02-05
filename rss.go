@@ -24,7 +24,7 @@ func ParseRss(config *BotConfig) ([]string, error) {
 		return nil, err
 	}
 
-	formats := regexp.MustCompile(`%([\w>]*)%`).FindAllStringSubmatch(config.Formatting, -1)
+	formats := regexp.MustCompile(`%([\w>\/]*)%`).FindAllStringSubmatch(config.Formatting, -1)
 
 	items := xmlquery.Find(doc, "//item")
 	items = reverse(items)
