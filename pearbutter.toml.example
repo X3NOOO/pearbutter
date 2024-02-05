@@ -14,7 +14,8 @@ channel = "##channel"
 rss_fetch_interval = 10
 rss_anti_flood = 15
 rss_url = "https://example.org/rss1"
-formatting = "%title% | %link% | comments: %comments%" # each variable surrounded by % will be replaced with the value from xpath query performed on the item element
+max_backlog = 1000
+formatting = "{yellow}%title%{reset} | {grey}%link%{reset} | comments: %comments%" # each variable surrounded by % will be replaced with the value from xpath query performed on the item element
 onconnect = "" # commands to be executed after connecting to the server
 
 [[servers]]
@@ -29,7 +30,7 @@ realname = "pearbutter"
 channel = "##channel"
 rss_fetch_interval = 10
 rss_anti_flood = 15
+rss_max_backlog = 1000
 rss_url = "https://example.org/rss2"
-formatting = "%title% | %link% | comments: %comments%" # each variable surrounded by % will be replaced with the value from xpath query performed on the item element
-onconnect = "" # commands to be executed after connecting to the server
+formatting = "{yellow}%title%{reset} | {grey}%link%{reset} | comments: %comments%" # each variable surrounded by % will be replaced with the value from xpath query performed on the item elementonconnect = "" # commands to be executed after connecting to the server
 
