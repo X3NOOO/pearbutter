@@ -55,13 +55,13 @@ func HandleBot(bot *girc.Client, config *BotConfig) error {
 				}
 
 				c.Cmd.Message(config.Channel, girc.Fmt(m))
-				for(len(posts) > config.MaxBacklog) {
+				for len(posts) > config.MaxBacklog {
 					log.Printf("Removing old message from backlog (size: %d > %d): %s\n", len(posts), config.MaxBacklog, posts[0])
 					posts = posts[1:]
 				}
 				posts = append(posts, m)
-				
-				time.Sleep(time.Duration(config.RssAntiFlood) * time.Second)
+
+				time.Sleep(time.Duration(config.AntiFlood) * time.Second)
 			}
 
 			time.Sleep(time.Duration(config.RssFetchInterval) * time.Second)
