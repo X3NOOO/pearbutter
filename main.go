@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/lrstanley/girc"
 	"golang.org/x/sync/errgroup"
@@ -16,6 +17,26 @@ var flagVerbose bool
 func init() {
 	flag.StringVar(&flagConfig, "config", "", "Path to the configuration file")
 	flag.BoolVar(&flagVerbose, "verbose", false, "Enable extra debug logs")
+}
+
+/*
+Discard a message if it starts with a certain prefix
+
+Args:
+prefix: The prefix to discard
+
+	io.Writer: The writer to discard from
+*/
+type discardWriter struct {
+	prefix string
+	w      io.Writer
+}
+
+func (dw discardWriter) Write(p []byte) (n int, err error) {
+	if strings.HasPrefix(string(p), dw.prefix) {
+		return len(p), nil
+	}
+	return dw.w.Write(p)
 }
 
 func main() {
@@ -37,16 +58,20 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	logfile, err := os.OpenFile(c.Config.Logfile, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0666)
+	lf, err := os.OpenFile(c.Config.Logfile, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		log.Fatalln(err)
 	}
+	defer lf.Close()
+
+	var logfile io.Writer = lf
 
 	var debugfile io.Writer
 	if flagVerbose {
 		debugfile = logfile
 	} else {
 		debugfile = io.Discard
+		logfile = discardWriter{"[>] writing PRIVMSG ", logfile}
 	}
 
 	log.SetOutput(logfile)
