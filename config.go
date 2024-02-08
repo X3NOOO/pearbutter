@@ -17,7 +17,7 @@ type BotConfig struct {
 	Realname         string `toml:"realname"`
 	Channel          string `toml:"channel"`
 	RssFetchInterval int    `toml:"rss_fetch_interval"`
-	RssAntiFlood     int    `toml:"rss_anti_flood"`
+	AntiFlood        int    `toml:"anti_flood"`
 	RssURL           string `toml:"rss_url"`
 	MaxBacklog       int    `toml:"max_backlog"`
 	Formatting       string `toml:"formatting"`
