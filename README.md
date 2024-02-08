@@ -22,7 +22,7 @@ RSS feed to IRC messages translator.
 
 1. `git clone https://github.com/X3NOOO/pearbutter && cd ./pearbutter`
 2. `bash ./build.sh config`
-3. `docker build -t pearbutter . && docker run -d --restart unless-stopped --name pearbutter pearbutter`
+3. `docker build -t pearbutter . && docker run -d --restart unless-stopped --name pearbutter pearbutter && docker image prune --filter label=stage=builder`
 
 ### Raw binary
 

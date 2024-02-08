@@ -1,4 +1,5 @@
-FROM golang:latest
+FROM golang:latest as builder
+LABEL stage=builder
 
 WORKDIR /src
 
@@ -9,9 +10,9 @@ RUN mkdir -p out
 RUN go mod download
 RUN go build -o out/pearbutter github.com/X3NOOO/pearbutter
 
+FROM scratch
 WORKDIR /pearbutter
-RUN mv /src/out/* .
-RUN rm -rf /src
+COPY --from=builder /src/out/* .
 
 ENTRYPOINT ["/pearbutter/pearbutter", "--config", "/pearbutter/pearbutter.toml"]
 
