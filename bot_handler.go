@@ -45,14 +45,22 @@ func HandleBot(bot *girc.Client, config *BotConfig) error {
 			}
 
 			for _, m := range msg {
-				if m == "" || inArray(posts, m){
+				if m == "" {
 					continue
 				}
+
+				if inArray(posts, m) {
+					log.Println("Skipping duplicate message:", m)
+					continue
+				}
+
 				c.Cmd.Message(config.Channel, girc.Fmt(m))
-				for(len(posts)-1 >= config.MaxBacklog) {
+				for(len(posts) > config.MaxBacklog) {
+					log.Println("Removing old message from backlog:", posts[0])
 					posts = posts[1:]
 				}
 				posts = append(posts, m)
+				
 				time.Sleep(time.Duration(config.RssAntiFlood) * time.Second)
 			}
 
